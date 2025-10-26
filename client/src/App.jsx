@@ -10,6 +10,8 @@ const [statuses,setStatuses]=useState([]);
 const [carriers,setCarriers]=useState([]);
 const [error,setError]=useState(null);
 const [searchString,setSearchString]=useState("");
+const [statusFilter,setStatusFilter]=useState("");
+const [carrierFilter,setCarrierFilter]=useState("");
 
 useEffect(() => {
   const fetchData=async()=>{
@@ -44,8 +46,21 @@ useEffect(() => {
 //handle search change
 const handleSearch=(e)=>{
   setSearchString(e.target.value);
-  setCurrentPage(1);
+  //setCurrentPage(1);
 }
+//handle filter change
+const handleFilterChange=(filterType,value)=>{
+//  console.log("value "+value , 
+//   "type of value" + typeof value
+//  );
+  if(filterType==='status'){
+    setStatusFilter(+value);
+  }
+  else if(filterType==='carrier'){
+    setCarrierFilter(+value);
+  }
+};
+
 let filteredLoads=Loads;
 if(searchString){
   filteredLoads=filteredLoads.filter(load=>
@@ -54,7 +69,14 @@ if(searchString){
     load.destination.toLowerCase().includes(searchString.toLowerCase())
   )
 }
-//handle filter change
+if(statusFilter){
+  filteredLoads=filteredLoads.filter(load=>load.status ==statusFilter);
+}
+if(carrierFilter){
+  filteredLoads=filteredLoads.filter(load=>load.carrier ==carrierFilter);
+}
+
+
   return (
     <>
       <div className="min-h-screen bg-base-200 p-4 md:p-8">
@@ -65,7 +87,7 @@ if(searchString){
           carriers={carriers}
           searchString={searchString}
           onSearchChange={handleSearch}
-          // onFilterChange={handleFilterChange}
+          onFilterChange={handleFilterChange}
         />
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body p-0">

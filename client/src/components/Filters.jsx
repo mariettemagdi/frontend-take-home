@@ -11,6 +11,28 @@ export default function Filters({statuses,carriers,searchString,onSearchChange,o
                     </label>
                     <input type="text" placeholder="Load ID, Origin, or Destination" className='input input-bordered w-full' value={searchString} onChange={onSearchChange} />  
                 </div>
+                <div className="form-control">
+                     <label className="label">
+                        <span className="label-text">Status</span>
+                    </label>
+                    <select className="select select-bordered w-full" onChange={(e)=>onFilterChange('status',e.target.value)} >
+                      <option value="">All</option>
+                      {statuses.map(status=>(
+                        <option key={status.id} value={status.id}>{status.label}</option>
+                      ))}
+                    </select>
+                </div>
+                <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">Carrier</span>
+                    </label>
+                    <select
+                        className="select select-bordered w-full"
+                        onChange={(e) => onFilterChange('carrier', e.target.value)}>
+                     <option value="">All</option>
+                     {carriers.map(carrier=>(<option key={carrier.id} value={carrier.id}>{carrier.label}</option>))}
+                    </select>
+                </div>
             </div>
         </div>
     </div>
