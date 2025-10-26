@@ -94,30 +94,58 @@ const handlePageChange=(page)=>{
 
 
   return (
-    <>
-      <div className="min-h-screen bg-base-200 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Shipping Loads</h1>
-        <Filters 
-          statuses={statuses}
-          carriers={carriers}
-          searchString={searchString}
-          onSearchChange={handleSearch}
-          onFilterChange={handleFilterChange}
-        />
-        <div className="card bg-base-100 shadow-xl">
-          <div className="card-body p-0">
-          <LoadsTable loads={filteredLoads} statuses={statuses} carriers={carriers}/>
-          {totalPages>1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>}
-          </div>
-          </div>
-            
-      </div>
-      </div>
-    
 
-    </>
-  )
-}
+  <div className="min-h-screen bg-base-200 p-4 md:p-8">
+    <div className="max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6"><span className='text-[#e05c13]'>Shipping</span> <span className='text-[#161e3c]'>Loads</span></h1>
+      
+      <Filters 
+        statuses={statuses}
+        carriers={carriers}
+        searchString={searchString}
+        onSearchChange={handleSearch}
+        onFilterChange={handleFilterChange}
+      />
+      
+      <div className="card bg-base-100 shadow-xl">
+        <div className="card-body p-0">
+          {error ? (
+            <div className='alert alert-error m-6'>
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{error}</span>
+            </div>
+          ) : loading ? (
+            <div className='flex justify-center items-center py-20'>
+              <span className='loading loading-spinner loading-lg'></span>
+            </div>
+          ) : filteredLoads.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-xl text-base-content/60">No loads found</p>
+              <p className="text-sm text-base-content/40 mt-2">Try adjusting your filters</p>
+            </div>
+          ) : (
+            <>
+              <LoadsTable 
+                loads={filteredLoads} 
+                statuses={statuses} 
+                carriers={carriers}
+              />
+              {totalPages > 1 && (
+                <Pagination 
+                  currentPage={currentPage} 
+                  totalPages={totalPages} 
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+};
 
-export default App
+export default App;

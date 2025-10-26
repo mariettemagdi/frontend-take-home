@@ -7,6 +7,21 @@ export default function LoadsTable({loads,statuses,carriers}) {
     const status = statuses.find(s => s.id === statusId);
     return status ? status.label : statusId;
   };
+  //status styling
+  const styleStatus = (statusLabel) => {
+    switch (statusLabel) {
+      case "Pending":
+        return "badge badge-warning"; // Yellow
+      case "In Transit":
+        return "badge badge-info"; // Blue
+      case "Delivered":
+        return "badge badge-success"; // Green
+      case "Cancelled":
+        return "badge badge-error"; // Red
+      default:
+        return "badge badge-ghost"; // Gray fallback
+    }
+  }
   //carrier label
   const getCarrierLabel = (carrierId) => {
     const carrier = carriers.find(c => c.id === carrierId);
@@ -26,7 +41,7 @@ export default function LoadsTable({loads,statuses,carriers}) {
   <table className="table">
     {/* head */}
     <thead>
-      <tr>
+      <tr className='bg-blue-950 text-white'>
         <th>Load ID</th>
         <th>Origin</th>
         <th>Destination</th>
@@ -43,10 +58,13 @@ export default function LoadsTable({loads,statuses,carriers}) {
           <th>{load.id}</th>
           <td>{load.origin}</td>
           <td>{load.destination}</td>
-          <td><span className='badge badge-primary badge-sm'>{getStatusLabel(load.status)}</span></td>
+          <td><span className={styleStatus(getStatusLabel(load.status))}>{getStatusLabel(load.status)}</span></td>
           <td>{load.date}</td>
           <td>{load.weight}</td>
-          <td><span className='badge badge-primary badge-sm'>{getCarrierLabel(load.carrier)}</span></td>
+          <td><span
+          className="badge badge-sm"
+          style={{ backgroundColor: "#e05c13", color: "#ffffff", border: "none" }}
+          >{getCarrierLabel(load.carrier)}</span></td>
           <td>{formatCurrency(load.price)}</td>
         </tr>
       ))}
