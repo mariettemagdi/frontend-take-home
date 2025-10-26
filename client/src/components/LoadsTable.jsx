@@ -34,6 +34,10 @@ export default function LoadsTable({loads,statuses,carriers}) {
     currency: 'EGP'
   }).format(amount);
 };
+//weight format
+  const formatWeight = (weight) => {
+    return new Intl.NumberFormat('en-US').format(weight) + ' lbs';
+  };
 
   return (
     <>
@@ -60,7 +64,7 @@ export default function LoadsTable({loads,statuses,carriers}) {
           <td>{load.destination}</td>
           <td><span className={styleStatus(getStatusLabel(load.status))}>{getStatusLabel(load.status)}</span></td>
           <td>{load.date}</td>
-          <td>{load.weight}</td>
+          <td>{formatWeight(load.weight)}</td>
           <td><span
           className="badge badge-sm"
           style={{ backgroundColor: "#e05c13", color: "#ffffff", border: "none" }}

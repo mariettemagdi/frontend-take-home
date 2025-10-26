@@ -46,6 +46,14 @@ useEffect(() => {
   fetchData();
 }, []);
 
+//debounce search input
+useEffect(()=>{
+  const delay=setTimeout(()=>{
+    setCurrentPage(1);
+  },300);
+  return ()=>clearTimeout(delay);
+},[searchString]);
+
 //handle search change
 const handleSearch=(e)=>{
   setSearchString(e.target.value);
