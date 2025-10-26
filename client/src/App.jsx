@@ -1,6 +1,7 @@
 import { useState,useEffect} from 'react'
 import LoadsTable from './components/LoadsTable.jsx';
 import Filters from './components/Filters.jsx';
+import Pagination from './components/Pagination.jsx';
 
 function App() {
 const API_BASE = 'http://localhost:3001/api';
@@ -12,6 +13,8 @@ const [error,setError]=useState(null);
 const [searchString,setSearchString]=useState("");
 const [statusFilter,setStatusFilter]=useState("");
 const [carrierFilter,setCarrierFilter]=useState("");
+const [currentPage,setCurrentPage]=useState(1);
+const pageSize=10;
 
 useEffect(() => {
   const fetchData=async()=>{
@@ -76,6 +79,19 @@ if(carrierFilter){
   filteredLoads=filteredLoads.filter(load=>load.carrier ==carrierFilter);
 }
 
+//pagination
+const totalPages=Math.ceil(filteredLoads.length/pageSize);
+const startIndex=(currentPage -1)*pageSize;
+const endIndex=startIndex + pageSize;
+filteredLoads=filteredLoads.slice(startIndex,endIndex);
+
+const handlePageChange=(page)=>{
+  if(page>=1 && page <=totalPages){
+    setCurrentPage(page);
+  }
+};
+
+
 
   return (
     <>
@@ -92,8 +108,10 @@ if(carrierFilter){
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body p-0">
           <LoadsTable loads={filteredLoads} statuses={statuses} carriers={carriers}/>
+           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
           </div>
           </div>
+            
       </div>
       </div>
     
