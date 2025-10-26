@@ -56,6 +56,7 @@ const handleFilterChange=(filterType,value)=>{
 //  console.log("value "+value , 
 //   "type of value" + typeof value
 //  );
+  setCurrentPage(1);
   if(filterType==='status'){
     setStatusFilter(+value);
   }
