@@ -108,7 +108,7 @@ const handlePageChange=(page)=>{
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body p-0">
           <LoadsTable loads={filteredLoads} statuses={statuses} carriers={carriers}/>
-           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>
+          {totalPages>1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>}
           </div>
           </div>
             
